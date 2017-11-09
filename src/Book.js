@@ -1,5 +1,12 @@
 import React from 'react'
 
+/**
+ * @description Representa o componente Book
+ * @param {string} title - O titulo do livro
+ * @param {string} author - O autor do livro
+ * @param {string} cover - A capa do livro
+ * @returns {JSX} componente
+ */
 function Book(props){
   return (
     <div className="book">
