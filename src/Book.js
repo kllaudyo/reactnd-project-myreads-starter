@@ -9,6 +9,9 @@ import React from 'react'
  * @returns {Object}
  */
 function Book(props){
+  // TODO: tratar array de autores
+  // TODO: marcar option correspondente ao estado atual do book
+  // TODO: verificar se api disponibiliza largura e altura do cover
   return (
     <div className="book">
       <div className="book-top">
