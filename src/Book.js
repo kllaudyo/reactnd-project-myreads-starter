@@ -9,9 +9,7 @@ import React from 'react'
  * @returns {Object}
  */
 function Book(props){
-  // TODO: tratar array de autores
   // TODO: marcar option correspondente ao estado atual do book
-  // TODO: verificar se api disponibiliza largura e altura do cover
   return (
     <div className="book">
       <div className="book-top">
@@ -27,7 +25,13 @@ function Book(props){
         </div>
       </div>
       <div className="book-title">{props.title}</div>
-      <div className="book-authors">{props.author}</div>
+      <div className="book-authors">
+        <ol className="authors-list">
+          {props.authors.map( (author,index) => (
+            <li key={index}>{author}</li>
+          ))}
+        </ol>
+      </div>
     </div>
   )
 }
