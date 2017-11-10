@@ -4,7 +4,7 @@ import React from 'react'
  * @description Representa o componente Book
  * @param {Object} props - Os atributos do componente
  * @param {string} props.title - O atributo titulo do livro
- * @param {string} props.author - O atributo autor do livro
+ * @param {string[]} props.authors - O atributo autores do livro
  * @param {string} props.cover - O atributo capa do livro
  * @returns {Object}
  */
