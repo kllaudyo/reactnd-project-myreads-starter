@@ -10,6 +10,27 @@ class BooksApp extends React.Component {
     shelfBooks: []
   };
 
+  /**
+   * @description Método para alterar a estante do livro
+   * @param {string} id - O atributo identificador único do livro
+   * @param {string} shelf - O atributo estante destino do livro
+   */
+  onChangeShelf = (id, shelf) => {
+    this.setState((state)=>{
+      state.shelfBooks.map((book) => {
+        if (book.id === id) {
+          book.shelf = shelf;
+          BooksAPI.update(book, shelf).then((response) => {
+            //state = {shelfBooks: books};
+          }).catch((e) => {
+            console.error(e);
+          });
+        }
+        return book;
+      })
+    })
+  };
+
   componentDidMount(){
     BooksAPI.getAll().then(books => {
       this.setState({shelfBooks:books})
@@ -57,7 +78,7 @@ class BooksApp extends React.Component {
                     <ol className="books-grid">
                       {this.state.shelfBooks.filter( book => ( book.shelf === 'currentlyReading') ).map( book => (
                         <li key={book.id}>
-                          <Book title={book.title} authors={book.authors} cover={book.imageLinks.smallThumbnail} shelf={book.shelf} />
+                          <Book id={book.id} title={book.title} authors={book.authors} cover={book.imageLinks.smallThumbnail} shelf={book.shelf} onChangeShelf={this.onChangeShelf} />
                         </li>
                       ))}
                     </ol>
@@ -70,7 +91,7 @@ class BooksApp extends React.Component {
                     <ol className="books-grid">
                       {this.state.shelfBooks.filter( book => ( book.shelf === 'wantToRead') ).map( book => (
                         <li key={book.id}>
-                          <Book title={book.title} authors={book.authors} cover={book.imageLinks.smallThumbnail} shelf={book.shelf} />
+                          <Book id={book.id} title={book.title} authors={book.authors} cover={book.imageLinks.smallThumbnail} shelf={book.shelf} onChangeShelf={this.onChangeShelf} />
                         </li>
                       ))}
                     </ol>
@@ -83,7 +104,7 @@ class BooksApp extends React.Component {
                     <ol className="books-grid">
                       {this.state.shelfBooks.filter( book => ( book.shelf === 'read') ).map( book => (
                         <li key={book.id}>
-                          <Book title={book.title} authors={book.authors} cover={book.imageLinks.smallThumbnail} shelf={book.shelf} />
+                          <Book id={book.id} title={book.title} authors={book.authors} cover={book.imageLinks.smallThumbnail} shelf={book.shelf} onChangeShelf={this.onChangeShelf} />
                         </li>
                       ))}
                     </ol>
