@@ -6,16 +6,17 @@ import React from 'react'
  * @param {string} props.title - O atributo titulo do livro
  * @param {string[]} props.authors - O atributo autores do livro
  * @param {string} props.cover - O atributo capa do livro
+ * @param {string} props.shelf - O atributo que define em qual estante esta o livro
  * @returns {Object}
  */
 function Book(props){
-  // TODO: marcar option correspondente ao estado atual do book
+  // TODO: Alterar livro de estante
   return (
     <div className="book">
       <div className="book-top">
         <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${props.cover})` }}></div>
         <div className="book-shelf-changer">
-          <select>
+          <select defaultValue={props.shelf}>
             <option value="none" disabled>Move to...</option>
             <option value="currentlyReading">Currently Reading</option>
             <option value="wantToRead">Want to Read</option>
