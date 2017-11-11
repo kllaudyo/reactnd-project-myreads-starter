@@ -11,24 +11,20 @@ class BooksApp extends React.Component {
   };
 
   /**
-   * @description Método para alterar a estante do livro
-   * @param {string} id - O atributo identificador único do livro
-   * @param {string} shelf - O atributo estante destino do livro
-   */
-  onChangeShelf = (id, shelf) => {
-    this.setState((state)=>{
-      state.shelfBooks.map((book) => {
-        if (book.id === id) {
-          book.shelf = shelf;
-          BooksAPI.update(book, shelf).then((response) => {
-            //state = {shelfBooks: books};
-          }).catch((e) => {
-            console.error(e);
-          });
-        }
-        return book;
-      })
-    })
+  * @description Método para alterar a estante do livro
+  * @param {Object} book - O objeto json book
+  * @param {string} shelf - O atributo estante destino do livro
+  */
+  onChangeShelf = (book, shelf) => {
+    const id = book.id;
+    const books = this.state.shelfBooks.filter(book => book.id !== id);
+
+    book.shelf = shelf;
+    books.push(book);
+
+    BooksAPI.update(book, shelf).then(response => {
+      this.setState({shelfBooks: books});
+    });
   };
 
   componentDidMount(){
