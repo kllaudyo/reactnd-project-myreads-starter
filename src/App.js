@@ -15,7 +15,7 @@ class BooksApp extends React.Component {
   * @param {Object} book - O objeto json book
   * @param {string} shelf - O atributo estante destino do livro
   */
-  onChangeShelf = (book, shelf) => {
+  changeShelf = (book, shelf) => {
     const id = book.id;
     const books = this.state.shelfBooks.filter(book => book.id !== id);
 
@@ -74,7 +74,7 @@ class BooksApp extends React.Component {
                     <ol className="books-grid">
                       {this.state.shelfBooks.filter( book => ( book.shelf === 'currentlyReading') ).map( book => (
                         <li key={book.id}>
-                          <Book book={book} onChangeShelf={this.onChangeShelf} />
+                          <Book book={book} onChangeShelf={this.changeShelf} />
                         </li>
                       ))}
                     </ol>
@@ -87,7 +87,7 @@ class BooksApp extends React.Component {
                     <ol className="books-grid">
                       {this.state.shelfBooks.filter( book => ( book.shelf === 'wantToRead') ).map( book => (
                         <li key={book.id}>
-                          <Book book={book} onChangeShelf={this.onChangeShelf} />
+                          <Book book={book} onChangeShelf={this.changeShelf} />
                         </li>
                       ))}
                     </ol>
@@ -100,7 +100,7 @@ class BooksApp extends React.Component {
                     <ol className="books-grid">
                       {this.state.shelfBooks.filter( book => ( book.shelf === 'read') ).map( book => (
                         <li key={book.id}>
-                          <Book book={book} onChangeShelf={this.onChangeShelf} />
+                          <Book book={book} onChangeShelf={this.changeShelf} />
                         </li>
                       ))}
                     </ol>
