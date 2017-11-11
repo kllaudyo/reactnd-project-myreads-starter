@@ -1,26 +1,42 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types';
+import {get} from './BooksAPI';
 
 /** Class Representa o componente Book. */
 class Book extends Component{
 
+  state = {
+    book : this.props.book
+  };
+
   static propTypes = {
-    book : PropTypes.object.isRequired,
+    book: PropTypes.object.isRequired,
+    id: PropTypes.string.isRequired,
     onChangeShelf: PropTypes.func.isRequired
   };
 
-  render(){
+  componentDidMount(){
+    get(this.props.id)
+      .then(book => this.setState({book:book}))
+      .catch(response => {
+        console.error(response);
+        this.setState({book:null})
+      });
+  }
 
-    const {book, onChangeShelf} = this.props;
-    const {title, authors = [], shelf = "none", imageLinks:cover} = book;
+  render() {
+
+    const {onChangeShelf} = this.props;
+    const {book} = this.state;
+    const {title = "", authors = [], shelf = "none", imageLinks: cover} = book;
 
     return (
       <div className="book">
         <div className="book-top">
           <div className="book-cover"
-               style={{width: 128, height: 192, backgroundImage: `url(${cover.smallThumbnail})`}}></div>
+               style={{width: 128, height: 192, backgroundImage: `url(${cover?cover.smallThumbnail:''})`}}></div>
           <div className="book-shelf-changer">
-            <select defaultValue={shelf} onChange={(event) => {
+            <select value={shelf} onChange={(event) => {
               onChangeShelf(book, event.target.value);
             }}>
               <option value="none" disabled>Move to...</option>
@@ -40,7 +56,7 @@ class Book extends Component{
           </ol>
         </div>
       </div>
-    )
+    );
   }
 }
 
