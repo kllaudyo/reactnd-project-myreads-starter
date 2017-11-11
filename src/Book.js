@@ -12,7 +12,7 @@ class Book extends Component{
   render(){
 
     const {book, onChangeShelf} = this.props;
-    const {title, authors, shelf, imageLinks:cover} = book;
+    const {title, authors = [], shelf = "none", imageLinks:cover} = book;
 
     return (
       <div className="book">
