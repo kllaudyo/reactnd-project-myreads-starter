@@ -10,14 +10,13 @@ class Search extends Component{
   constructor(){
     super();
     this.timming_id = null;
+    this.state = {
+      books : []
+    }
   }
 
   static propTypes = {
     onChangeShelf : PropTypes.func.isRequired
-  };
-
-  state = {
-    books : [],
   };
 
   updateQuery = (query) => {
