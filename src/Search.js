@@ -15,11 +15,6 @@ class Search extends Component{
     }
   }
 
-  static propTypes = {
-    onChangeShelf : PropTypes.func.isRequired,
-    getShelf: PropTypes.func.isRequired
-  };
-
   updateQuery = (query) => {
     query = query.trim();
 
@@ -50,38 +45,53 @@ class Search extends Component{
       clearTimeout(this.timming_id)
   };
 
+  static renderBar(onChangeQuery) {
+    return (
+      <div className="search-books-bar">
+        <Link to="/" className="close-search" >Close</Link>
+        <div className="search-books-input-wrapper">
+          <input type="text" placeholder="Search by title or author" onChange={event => onChangeQuery(event.target.value)} />
+        </div>
+      </div>
+    );
+  }
+
+  static renderResult(books, getShelf, onChangeShelf) {
+    return (
+      <div className="search-books-results">
+        <ol className="books-grid">
+          {books.map(book => (
+              <li key={book.id}>
+                <Book id={book.id}
+                      title={book.title}
+                      authors={book.authors?book.authors:[]}
+                      cover={book.imageLinks.smallThumbnail}
+                      shelf={getShelf(book.id)}
+                      onChangeShelf={onChangeShelf}
+                />
+              </li>
+            )
+          )}
+        </ol>
+      </div>
+    );
+  }
+
   render(){
-
     const {onChangeShelf, getShelf} = this.props;
-
     return (
       <div className="search-books">
-        <div className="search-books-bar">
-          <Link to="/" className="close-search" >Close</Link>
-          <div className="search-books-input-wrapper">
-            <input type="text" placeholder="Search by title or author" onChange={event => this.updateQuery(event.target.value)} />
-          </div>
-        </div>
-        <div className="search-books-results">
-          <ol className="books-grid">
-            {this.state.books.map(book => (
-                <li key={book.id}>
-                  <Book id={book.id}
-                         title={book.title}
-                         authors={book.authors?book.authors:[]}
-                         cover={book.imageLinks.smallThumbnail}
-                         shelf={getShelf(book.id)}
-                         onChangeShelf={onChangeShelf}
-                  />
-                </li>
-              )
-            )}
-          </ol>
-        </div>
+        {Search.renderBar(this.updateQuery)}
+        {Search.renderResult(this.state.books, getShelf, onChangeShelf)}
       </div>
     )
   }
 
 }
+
+Search.propTypes = {
+  onChangeShelf : PropTypes.func.isRequired,
+  getShelf: PropTypes.func.isRequired
+};
 
 export default Search;
