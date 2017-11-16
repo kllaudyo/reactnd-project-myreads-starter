@@ -16,7 +16,8 @@ class Search extends Component{
   }
 
   static propTypes = {
-    onChangeShelf : PropTypes.func.isRequired
+    onChangeShelf : PropTypes.func.isRequired,
+    getShelf: PropTypes.func.isRequired
   };
 
   updateQuery = (query) => {
@@ -51,7 +52,7 @@ class Search extends Component{
 
   render(){
 
-    const {onChangeShelf} = this.props;
+    const {onChangeShelf, getShelf} = this.props;
 
     return (
       <div className="search-books">
@@ -63,11 +64,18 @@ class Search extends Component{
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            { this.state.books.map(book => (
-              <li key={book.id}>
-                <Book book={book} id={book.id} onChangeShelf={onChangeShelf} />
-              </li>
-            ))}
+            {this.state.books.map(book => (
+                <li key={book.id}>
+                  <Book id={book.id}
+                         title={book.title}
+                         authors={book.authors?book.authors:[]}
+                         cover={book.imageLinks.smallThumbnail}
+                         shelf={getShelf(book.id)}
+                         onChangeShelf={onChangeShelf}
+                  />
+                </li>
+              )
+            )}
           </ol>
         </div>
       </div>
