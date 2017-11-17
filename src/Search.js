@@ -9,41 +9,32 @@ class Search extends Component{
 
   constructor(){
     super();
-    this.timming_id = null;
     this.state = {
       books : []
-    }
+    };
+    this.updateQuery = this.updateQuery.bind(this);
+    this.clearQuery = this.clearQuery.bind(this);
   }
 
-  updateQuery = (query) => {
+  updateQuery(query) {
     query = query.trim();
-
-    this.clearTimming();
-
     if(query.length > 0){
-      this.timming_id = setTimeout(()=>{
-        search(query, 10)
-          .then(books => {
-            if(Array.isArray(books)) {
-              this.setState({books: books})
-            } else {
-              this.clearQuery()
-            }
-          }).catch(() => this.clearQuery())
-      }, 300)
+      search(query, 10)
+        .then(books => {
+          if(Array.isArray(books)) {
+            this.setState({books: books})
+          } else {
+            this.clearQuery()
+          }
+        }).catch(() => this.clearQuery());
     }else{
       this.clearQuery();
     }
-  };
+  }
 
-  clearQuery = () => {
+  clearQuery() {
     this.setState({books:[]})
-  };
-
-  clearTimming = () => {
-    if(this.timming_id !== null)
-      clearTimeout(this.timming_id)
-  };
+  }
 
   static renderBar(onChangeQuery) {
     return (
