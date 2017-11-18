@@ -44,78 +44,52 @@ class BooksApp extends React.Component {
     })
   }
 
-  render() {
+  static renderBar(){
+    return (
+      <div className="list-books-title">
+        <h1>MyReads</h1>
+      </div>
+    );
+  }
 
+  renderShelf(title, books){
+    return (
+      <div className="bookshelf">
+        <h2 className="bookshelf-title">{title}</h2>
+        <div className="bookshelf-books">
+          <ol className="books-grid">
+            {books.map( book => (
+              <li key={book.id}>
+                <Book id={book.id}
+                      title={book.title}
+                      authors={book.authors}
+                      cover={book.imageLinks.smallThumbnail}
+                      shelf={book.shelf}
+                      onChangeShelf={this.setShelf}
+                />
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    const {books} = this.state;
     return (
       <div className="app">
-
         <Route path="/search" render={() => (
           <Search onChangeShelf={this.setShelf} getShelf={this.getShelf} />
         )} />
-
         <Route exact path="/" render={() => (
           <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
+            {BooksApp.renderBar()}
             <div className="list-books-content">
               <div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Currently Reading</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                      {this.state.books.filter( book => ( book.shelf === 'currentlyReading') ).map( book => (
-                        <li key={book.id}>
-                          <Book id={book.id}
-                                title={book.title}
-                                authors={book.authors}
-                                cover={book.imageLinks.smallThumbnail}
-                                shelf={book.shelf}
-                                onChangeShelf={this.setShelf}
-                          />
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                </div>
-
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Want to Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                      {this.state.books.filter( book => ( book.shelf === 'wantToRead') ).map( book => (
-                        <li key={book.id}>
-                          <Book id={book.id}
-                                title={book.title}
-                                authors={book.authors}
-                                cover={book.imageLinks.smallThumbnail}
-                                shelf={book.shelf}
-                                onChangeShelf={this.setShelf}
-                          />
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                </div>
-
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                      {this.state.books.filter( book => ( book.shelf === 'read') ).map( book => (
-                        <li key={book.id}>
-                          <Book id={book.id}
-                                title={book.title}
-                                authors={book.authors}
-                                cover={book.imageLinks.smallThumbnail}
-                                shelf={book.shelf}
-                                onChangeShelf={this.setShelf}
-                          />
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                </div>
+                {this.renderShelf("Currently Reading", books.filter(book=>(book.shelf === 'currentlyReading')))}
+                {this.renderShelf("Want to Read", books.filter(book=>(book.shelf === 'wantToRead')))}
+                {this.renderShelf("Read", books.filter(book=>(book.shelf === 'read')))}
               </div>
             </div>
             <div className="open-search">
@@ -123,7 +97,6 @@ class BooksApp extends React.Component {
             </div>
           </div>
         )} />
-
       </div>
     )
   }
